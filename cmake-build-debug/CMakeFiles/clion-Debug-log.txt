@@ -1,0 +1,4 @@
+D:\Programmes\Clion\CLion202223\bin\cmake\win\x64\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=D:/Programmes/Clion/CLion202223/bin/ninja/win/x64/ninja.exe "-DCMAKE_CXX_FLAGS=-Wall -Wextra -Wconversion -Wsign-conversion -pedantic" -G Ninja -S D:\HEIG\S2\PRG2\Laboratoire\Laboratoire2 -B D:\HEIG\S2\PRG2\Laboratoire\Laboratoire2\cmake-build-debug
+-- Configuring done
+-- Generating done
+-- Build files have been written to: D:/HEIG/S2/PRG2/Laboratoire/Laboratoire2/cmake-build-debug
