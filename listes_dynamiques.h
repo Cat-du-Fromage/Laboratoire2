@@ -103,8 +103,7 @@ Status supprimerEnQueue(Liste* liste, Info* info);
 // vérifient le critère passé en second paramètre.
 // Exemple: on souhaite supprimer de la liste tous les éléments dont la position est
 // impaire et pour lesquels info est compris dans un certain intervalle de valeurs
-void supprimerSelonCritere(Liste* liste,
-									bool (*critere)(size_t position, const Info* info));
+void supprimerSelonCritere(Liste* liste, bool (*critere)(size_t position, const Info* info));
 // ------------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------

@@ -49,8 +49,8 @@ cmake_ninja_workdir = D$:/HEIG/S2/PRG2/Laboratoire/Laboratoire2/cmake-build-debu
 
 build cmake_object_order_depends_target_Laboratoire2: phony || CMakeFiles/Laboratoire2.dir
 
-build CMakeFiles/Laboratoire2.dir/main.c.obj: C_COMPILER__Laboratoire2_Debug D$:/HEIG/S2/PRG2/Laboratoire/Laboratoire2/main.c || cmake_object_order_depends_target_Laboratoire2
-  DEP_FILE = CMakeFiles\Laboratoire2.dir\main.c.obj.d
+build CMakeFiles/Laboratoire2.dir/listes_dynamiques.c.obj: C_COMPILER__Laboratoire2_Debug D$:/HEIG/S2/PRG2/Laboratoire/Laboratoire2/listes_dynamiques.c || cmake_object_order_depends_target_Laboratoire2
+  DEP_FILE = CMakeFiles\Laboratoire2.dir\listes_dynamiques.c.obj.d
   FLAGS = -g -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\Laboratoire2.dir
   OBJECT_FILE_DIR = CMakeFiles\Laboratoire2.dir
@@ -63,7 +63,7 @@ build CMakeFiles/Laboratoire2.dir/main.c.obj: C_COMPILER__Laboratoire2_Debug D$:
 #############################################
 # Link the executable Laboratoire2.exe
 
-build Laboratoire2.exe: C_EXECUTABLE_LINKER__Laboratoire2_Debug CMakeFiles/Laboratoire2.dir/main.c.obj
+build Laboratoire2.exe: C_EXECUTABLE_LINKER__Laboratoire2_Debug CMakeFiles/Laboratoire2.dir/listes_dynamiques.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Laboratoire2.dir
