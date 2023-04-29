@@ -113,15 +113,10 @@ Status insererEnTete(Liste *liste, const Info *info) {
         return MEMOIRE_INSUFFISANTE;
     }
 
-    Info *infoTmp = NULL;
-    if ((infoTmp = malloc(sizeof(Info))) == NULL) {
-        free(element);
-        return MEMOIRE_INSUFFISANTE;
-    }
-    memcpy(infoTmp, info, sizeof(Info));
+    //Copie la valeur de info
+    memcpy(&element->info, info, sizeof(Info));
 
-    element->info = *infoTmp;
-
+    //Si la liste est vide, met l'élément en tant que tête et queue de la liste
     if (estVide(liste)) {
         liste->tete = element;
         liste->queue = element;
@@ -129,6 +124,7 @@ Status insererEnTete(Liste *liste, const Info *info) {
         element->suivant = NULL;
 
     } else {
+        //Lie le nouvel élément avec l'ancienne tête de liste
         element->suivant = liste->tete;
         element->precedent = NULL;
         liste->tete->precedent = element;
@@ -144,21 +140,17 @@ Status insererEnTete(Liste *liste, const Info *info) {
 // Renvoie OK si l'insertion s'est déroulée avec succès et MEMOIRE_INSUFFISANTE
 // s'il n'y a pas assez de mémoire pour créer le nouvel élément.
 Status insererEnQueue(Liste *liste, const Info *info) {
-    Element *element = (Element *) malloc(sizeof(Element));
 
+    //Alloue la mémoire pour le nouvel élément
+    Element *element = (Element *) malloc(sizeof(Element));
     if (!element) {
         return MEMOIRE_INSUFFISANTE;
     }
 
-    Info *infoTmp = NULL;
-    if ((infoTmp = malloc(sizeof(Info))) == NULL) {
-        free(element);
-        return MEMOIRE_INSUFFISANTE;
-    }
-    memcpy(infoTmp, info, sizeof(Info));
+    //Copie la valeur de info
+    memcpy(&element->info, info, sizeof(Info));
 
-    element->info = *infoTmp;
-
+    //Si la liste est vide, met l'élément en tant que tête et queue de la liste
     if (estVide(liste)) {
         liste->tete = element;
         liste->queue = element;
@@ -166,6 +158,7 @@ Status insererEnQueue(Liste *liste, const Info *info) {
         element->suivant = NULL;
 
     } else {
+        //Lie le nouvel élément avec l'ancienne queue de liste
         element->suivant = NULL;
         element->precedent = liste->queue;
         liste->queue->suivant = element;
