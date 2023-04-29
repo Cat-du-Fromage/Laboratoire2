@@ -1,6 +1,6 @@
 /*
  -----------------------------------------------------------------------------------
- Nom du fichier : listes_dynamiques.h
+ Nom du fichier : listes_dynamiques.c
  Auteur(s)      : Johan Voland, Florian Duruz, Guillaume Dunant
  Date creation  : 26.04.2023
 
@@ -52,11 +52,12 @@ bool estVide(const Liste *liste) {
 // Renvoie combien il y a d'éléments dans liste.
 size_t longueur(const Liste *liste) {
     size_t compteur = 0;
-    Element *actual = liste->tete;
+    Element *actuel = liste->tete;
 
-    while (actual != NULL) {
+    //Incrémente le compteur tant que l'élément actuel n'est pas un pointeur NULL
+    while (actuel) {
         ++compteur;
-        actual = actual->suivant;
+        actuel = actuel->suivant;
     }
 
     return compteur;
@@ -79,7 +80,7 @@ void afficher(const Liste *liste, Mode mode) {
 
     //Affiche les valeurs du tableau
     printf("[");
-    if (actuel != NULL) {
+    if (actuel) {
         while (true) {
             printf("%d", actuel->info);
 
@@ -89,7 +90,7 @@ void afficher(const Liste *liste, Mode mode) {
                 actuel = actuel->precedent;
             }
 
-            if (actuel == NULL) {
+            if (!actuel) {
                 break;
             } else {
                 printf(",");
@@ -105,14 +106,16 @@ void afficher(const Liste *liste, Mode mode) {
 // Renvoie OK si l'insertion s'est déroulée avec succès et MEMOIRE_INSUFFISANTE
 // s'il n'y a pas assez de mémoire pour créer le nouvel élément.
 Status insererEnTete(Liste *liste, const Info *info) {
-    Element *element = (Element *) malloc(sizeof(Element));
 
-    if (element == NULL) {
+    //Alloue la mémoire pour le nouvel élément
+    Element *element = (Element *) malloc(sizeof(Element));
+    if (!element) {
         return MEMOIRE_INSUFFISANTE;
     }
 
     Info *infoTmp = NULL;
     if ((infoTmp = malloc(sizeof(Info))) == NULL) {
+        free(element);
         return MEMOIRE_INSUFFISANTE;
     }
     memcpy(infoTmp, info, sizeof(Info));
@@ -143,12 +146,13 @@ Status insererEnTete(Liste *liste, const Info *info) {
 Status insererEnQueue(Liste *liste, const Info *info) {
     Element *element = (Element *) malloc(sizeof(Element));
 
-    if (element == NULL) {
+    if (!element) {
         return MEMOIRE_INSUFFISANTE;
     }
 
     Info *infoTmp = NULL;
     if ((infoTmp = malloc(sizeof(Info))) == NULL) {
+        free(element);
         return MEMOIRE_INSUFFISANTE;
     }
     memcpy(infoTmp, info, sizeof(Info));
@@ -181,11 +185,11 @@ Status supprimerEnTete(Liste *liste, Info *info) {
         return LISTE_VIDE;
 
     //Copie la valeur de info en tête
-    if (info != NULL)
+    if (info)
         memcpy(info, &liste->tete->info, sizeof(Info));
 
     //S'il n'y a qu'un élément
-    if (liste->tete->suivant == NULL) {
+    if (!liste->tete->suivant) {
         free(liste->tete);
         liste->tete = NULL;
         liste->queue = NULL;
@@ -210,11 +214,11 @@ Status supprimerEnQueue(Liste *liste, Info *info) {
         return LISTE_VIDE;
 
     //Copie la valeur de info en queue
-    if (info != NULL)
+    if (info)
         memcpy(info, &liste->queue->info, sizeof(Info));
 
     //S'il n'y a qu'un élément
-    if (liste->queue->precedent == NULL) {
+    if (!liste->queue->precedent) {
         free(liste->queue);
         liste->tete = NULL;
         liste->queue = NULL;
@@ -238,11 +242,11 @@ void supprimerSelonCritere(Liste *liste, bool (*critere)(size_t position, const 
     size_t compteur = 1;
     Element *element = liste->tete;
 
-    while (element != NULL) {
+    while (element) {
         //Si le critère pour l'élément est rempli
         if (critere(compteur, &element->info)) {
             //Supprime l'élément de liste
-            if (element->precedent != NULL && element->suivant != NULL) {
+            if (element->precedent && element->suivant) {
                 element->precedent->suivant = element->suivant;
                 element->suivant->precedent = element->precedent;
             } else if (element == liste->tete && element == liste->queue) {
@@ -274,6 +278,7 @@ void supprimerSelonCritere(Liste *liste, bool (*critere)(size_t position, const 
 // à partir de la position position
 // N.B. Vider à partir de la position 0 signifie vider toute la liste.
 void vider(Liste *liste, size_t position) {
+    //Obtient le dernier élément à ne pas supprimer
     Element *elementAGarder = liste->tete;
     for (size_t i = 1; i < position - 1; i++) {
         if (elementAGarder == NULL) {
@@ -282,8 +287,11 @@ void vider(Liste *liste, size_t position) {
         elementAGarder = elementAGarder->suivant;
     }
 
+    //Si le dernier élément à garder ne dépasse pas la taille max (et donc vaut NULL)
+    //ou si on supprime tout
     if (elementAGarder != NULL || position == 0) {
         Status statu = OK;
+        //Supprime l'élément en fin tant qu'on atteint pas le dernier élément à grader
         while (liste->queue != elementAGarder || statu == OK && position == 0) {
             statu = supprimerEnQueue(liste, NULL);
         }
@@ -337,6 +345,7 @@ int main() {
     insererEnQueue(l, &i6);
     insererEnQueue(l, &i5);
     insererEnQueue(l, &i6);
+    printf("l = %lld : ", longueur(l));
     afficher(l, FORWARD);
     supprimerSelonCritere(l, &check);
     afficher(l, FORWARD);
