@@ -4,8 +4,8 @@
  Auteur(s)      : Johan Voland, Florian Duruz, Guillaume Dunant
  Date creation  : 26.04.2023
 
- Description    : Librairie permettant la gestion de listes doublement chaînées
-                  non circulaires
+ Description    : Implémentation des fonctions de la librairie permettant la
+ 						gestion de listes doublement chaînées non circulaires.
 
  Remarque(s)    : -
 
@@ -19,15 +19,16 @@
 #include <string.h>
 
 // ------------------------------------------------------------------------------
-// Initialisation de la liste.
-// N.B. Cette fonction doit obligatoirement être utilisée pour se créer une liste
-// car elle garantit la mise à NULL des champs tete et queue de la liste
-// Renvoie NULL en cas de mémoire insuffisante
+/**
+ * @brief Initialisation de la liste.
+ *
+ * @return Liste construite ou NULL en cas de mémoire insuffisante.
+ */
 Liste *initialiser(void) {
     //Allocation de la mémoire
     Liste *list = (Liste *) malloc(sizeof(Liste));
 
-    //Retourne NULL si la mémoire n'a pas pu être initialisé
+    //Retourne NULL si la mémoire n'a pas pu être initialisée
     if (list == NULL) {
         return NULL;
     }
@@ -42,14 +43,24 @@ Liste *initialiser(void) {
 // ------------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------
-// Renvoie true si liste est vide, false sinon.
+/**
+ * @brief Test si la liste est vide.
+ *
+ * @param liste Liste à tester.
+ * @return True si la liste est vide, False sinon.
+ */
 bool estVide(const Liste *liste) {
     return liste->tete == NULL && liste->queue == NULL;
 }
 // ------------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------
-// Renvoie combien il y a d'éléments dans liste.
+/**
+ * @brief Renvoie combien il y a d'élément dans liste.
+ *
+ * @param liste Liste à parcourir.
+ * @return Nombre d'éléments dans la liste.
+ */
 size_t longueur(const Liste *liste) {
     size_t compteur = 0;
     Element *actuel = liste->tete;
@@ -65,10 +76,13 @@ size_t longueur(const Liste *liste) {
 // ------------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------
-// Affiche le contenu intégral de liste sous la forme : [info_1,info_2,...]
-// Dans le cas d'une liste vide, affiche : []
-// En mode FORWARD, resp. BACKWARD, l'affichage se fait en parcourant liste
-// dans le sens tete -> queue, resp. queue -> tete.
+/**
+ * @brief Affiche le contenu intégral de liste.
+ *
+ * @param liste Liste à afficher.
+ * @param mode Si FORWARD, l'affichage se fait du début à la fin de la liste sinon il
+ * 				se fait dans le sens inverse.
+ */
 void afficher(const Liste *liste, Mode mode) {
     //Initialise le pointeur qui parcourira la liste
     Element *actuel;
@@ -102,9 +116,14 @@ void afficher(const Liste *liste, Mode mode) {
 // ------------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------
-// Insère un nouvel élément (contenant info) en tête de liste.
-// Renvoie OK si l'insertion s'est déroulée avec succès et MEMOIRE_INSUFFISANTE
-// s'il n'y a pas assez de mémoire pour créer le nouvel élément.
+/**
+ * @brief Insère un nouvel élément en tête de liste.
+ *
+ * @param liste Liste où on doit insérer l'élément.
+ * @param info Information contenue dans le nouvel élément.
+ * @return OK si l'insertion s'est déroulée avec succès ou MEMOIRE_INSUFFISANTE
+ * 		  s'il n'y a pas assez de mémoire pour créer l'élément.
+ */
 Status insererEnTete(Liste *liste, const Info *info) {
 
     //Alloue la mémoire pour le nouvel élément
@@ -136,9 +155,14 @@ Status insererEnTete(Liste *liste, const Info *info) {
 // ------------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------
-// Insère un nouvel élément (contenant info) en queue de liste.
-// Renvoie OK si l'insertion s'est déroulée avec succès et MEMOIRE_INSUFFISANTE
-// s'il n'y a pas assez de mémoire pour créer le nouvel élément.
+/**
+ * @brief Insère un nouvel élément en fin de liste.
+ *
+ * @param liste Liste où on doit insérer l'élément.
+ * @param info Information contenue dans le nouvel élément.
+ * @return OK si l'insertion s'est déroulée avec succès ou MEMOIRE_INSUFFISANTE
+ * 		  s'il n'y a pas assez de mémoire pour créer l'élément.
+ */
 Status insererEnQueue(Liste *liste, const Info *info) {
 
     //Alloue la mémoire pour le nouvel élément
@@ -169,9 +193,13 @@ Status insererEnQueue(Liste *liste, const Info *info) {
 // ------------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------
-// Renvoie, via le paramètre info, l'info stockée dans l'élément en tête de liste,
-// puis supprime, en restituant la mémoire allouée, ledit élément.
-// Renvoie LISTE_VIDE si la liste passée en paramètre est vide, OK sinon.
+/**
+ * @brief Supression de l'élément en tête de liste.
+ *
+ * @param liste Liste contenant l'élément à supprimer.
+ * @param info Info stockée en tête de liste.
+ * @return LISTE_VIDE si la liste est vide, OK sinon.
+ */
 Status supprimerEnTete(Liste *liste, Info *info) {
     //Vérifie que la liste n'est pas vide
     if (estVide(liste))
@@ -198,9 +226,13 @@ Status supprimerEnTete(Liste *liste, Info *info) {
 // ------------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------
-// Renvoie, via le paramètre info, l'info stockée dans l'élément en queue de liste,
-// puis supprime, en restituant la mémoire allouée, ledit élément.
-// Renvoie LISTE_VIDE si la liste passée en paramètre est vide, OK sinon.
+/**
+ * @brief Supression de l'élément en queue de liste.
+ *
+ * @param liste Liste contenant l'élément à supprimer.
+ * @param info Info stockée en queue de liste.
+ * @return LISTE_VIDE si la liste est vide, OK sinon.
+ */
 Status supprimerEnQueue(Liste *liste, Info *info) {
     //Vérifie que la liste n'est pas vide
     if (estVide(liste))
@@ -227,10 +259,12 @@ Status supprimerEnQueue(Liste *liste, Info *info) {
 // ------------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------
-// Supprime, en restituant la mémoire allouée, tous les éléments de la liste qui
-// vérifient le critère passé en second paramètre.
-// Exemple: on souhaite supprimer de la liste tous les éléments dont la position est
-// impaire et pour lesquels info est compris dans un certain intervalle de valeurs
+/**
+ * @brief Supression des éléments de la liste vérifant le paramètre critere.
+ *
+ * @param liste Liste contentant les éléments à supprimer.
+ * @param critere Fonction définissant le critère des éléments à supprimer.
+ */
 void supprimerSelonCritere(Liste *liste, bool (*critere)(size_t position, const Info *info)) {
     size_t compteur = 1;
     Element *element = liste->tete;
@@ -267,9 +301,12 @@ void supprimerSelonCritere(Liste *liste, bool (*critere)(size_t position, const 
 // ------------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------
-// Supprime, en restituant la mémoire allouée, tous les éléments de la liste
-// à partir de la position position
-// N.B. Vider à partir de la position 0 signifie vider toute la liste.
+/**
+ * @brief Suppression des éléments de la liste à partir d'une position.
+ *
+ * @param liste Liste contenant les éléments à supprimer.
+ * @param position Position à partir de laquelle il faut supprimer les éléments.
+ */
 void vider(Liste *liste, size_t position) {
     //Obtient le dernier élément à ne pas supprimer
     Element *elementAGarder = liste->tete;
@@ -285,7 +322,7 @@ void vider(Liste *liste, size_t position) {
     if (elementAGarder != NULL || position == 0) {
         Status statu = OK;
         //Supprime l'élément en fin tant qu'on atteint pas le dernier élément à grader
-        while (liste->queue != elementAGarder || statu == OK && position == 0) {
+        while (liste->queue != elementAGarder || (statu == OK && position == 0)) {
             statu = supprimerEnQueue(liste, NULL);
         }
     }
@@ -293,9 +330,13 @@ void vider(Liste *liste, size_t position) {
 // ------------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------
-// Renvoie true si liste1 et liste2 sont égales (au sens mêmes infos et infos
-// apparaissant dans le même ordre), false sinon.
-// N.B. 2 listes vides sont considérées comme égales.
+/**
+ * @brief Vérifie que deux listes sont égales.
+ *
+ * @param liste1 Première liste à tester.
+ * @param liste2 Seconde liste à tester.
+ * @return True si les deux liste sont égales, false sinon.
+ */
 bool sontEgales(const Liste *liste1, const Liste *liste2) {
     Element *el1 = liste1->tete;
     Element *el2 = liste2->tete;
@@ -321,37 +362,3 @@ bool sontEgales(const Liste *liste1, const Liste *liste2) {
     return false;
 }
 // ------------------------------------------------------------------------------
-
-
-bool check(size_t position, const Info *info) {
-    return *info == 6;
-}
-
-int main() {
-    Liste *l = initialiser();
-    const Info i4 = 4;
-    const Info i5 = 5;
-    const Info i6 = 6;
-    insererEnQueue(l, &i4);
-    insererEnTete(l, &i5);
-    insererEnQueue(l, &i6);
-    insererEnQueue(l, &i6);
-    insererEnQueue(l, &i5);
-    insererEnQueue(l, &i6);
-    printf("l = %lld : ", longueur(l));
-    afficher(l, FORWARD);
-    supprimerSelonCritere(l, &check);
-    afficher(l, FORWARD);
-    Liste *l2 = initialiser();
-    insererEnTete(l2, &i5);
-    insererEnTete(l2, &i4);
-    insererEnTete(l2, &i5);
-    printf("%d\n", sontEgales(l, l2));
-    supprimerEnTete(l, NULL);
-    printf("%d\n", sontEgales(l, l2));
-    vider(l, 0);
-    vider(l2, 0);
-    printf("%d\n", sontEgales(l, l2));
-
-    return 0;
-}
