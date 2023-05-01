@@ -19,14 +19,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-
-
-
-
-
-
-
 // ------------------------------------------------------------------------------
 /**
  * @brief Initialisation de la liste.
@@ -121,7 +113,7 @@ Status insererEnTete(Liste *liste, const Info *info) {
    if (!element) return MEMOIRE_INSUFFISANTE;
 
    //Copie la valeur de info
-   memcpy(&element->info, info, sizeof(Info));
+   memcpyInfoSiPossible(&element->info, info);
 
    //Si la liste est vide, met l'élément en tant que tête et queue de la liste
    if (estVide(liste)) {

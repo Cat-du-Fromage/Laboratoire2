@@ -25,5 +25,5 @@ void ajoutAUneListeVide(Liste *liste, Element *element) {
 
 void memcpyInfoSiPossible(Info *destination, const Info* source)
 {
-   if (destination) memcpy(destination, source, sizeof(Info));
+   if (destination && source) memcpy(destination, source, sizeof(Info));
 }
