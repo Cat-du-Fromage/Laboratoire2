@@ -24,7 +24,7 @@
  * @param element
  * @return
  */
-void AddToEmptyList(Liste* liste, Element* element)
+void ajoutAUneListeVide(Liste* liste, Element* element)
 {
    liste->tete = element;
    liste->queue = element;
@@ -134,7 +134,7 @@ Status insererEnTete(Liste *liste, const Info *info) {
 
     //Si la liste est vide, met l'élément en tant que tête et queue de la liste
     if (estVide(liste)) {
-        AddToEmptyList(liste, element);
+       ajoutAUneListeVide(liste, element);
     } else {
         //Lie le nouvel élément avec l'ancienne tête de liste
         element->suivant = liste->tete;
@@ -167,7 +167,7 @@ Status insererEnQueue(Liste *liste, const Info *info) {
 
     //Si la liste est vide, met l'élément en tant que tête et queue de la liste
     if (estVide(liste)) {
-        AddToEmptyList(liste, element);
+       ajoutAUneListeVide(liste, element);
     } else {
         //Lie le nouvel élément avec l'ancienne queue de liste
         element->suivant = NULL;
