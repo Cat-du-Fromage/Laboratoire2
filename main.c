@@ -36,7 +36,7 @@ bool checkIf6(size_t position, const Info *info);
  */
 bool checkImpaireOuRange(size_t position, const Info *info);
 
-int main() {
+int main(void) {
 	Liste *l = initialiser();
 
 	const Info i4 = 4;

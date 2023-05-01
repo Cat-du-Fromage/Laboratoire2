@@ -18,6 +18,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * Utilitaire pour l'ajout d'éléments dans une liste vide
+ * @param liste
+ * @param element
+ * @return
+ */
+bool AddToEmptyList(Liste* liste, Element* element)
+{
+   liste->tete = element;
+   liste->queue = element;
+   element->precedent = NULL;
+   element->suivant = NULL;
+}
+
 // ------------------------------------------------------------------------------
 /**
  * @brief Initialisation de la liste.
@@ -29,9 +43,7 @@ Liste *initialiser(void) {
     Liste *list = (Liste *) malloc(sizeof(Liste));
 
     //Retourne NULL si la mémoire n'a pas pu être initialisée
-    if (list == NULL) {
-        return NULL;
-    }
+    if (list == NULL) return NULL;
 
     //Initialise les pointeurs à NULL
     list->queue = NULL;
@@ -86,29 +98,16 @@ size_t longueur(const Liste *liste) {
 void afficher(const Liste *liste, Mode mode) {
     //Initialise le pointeur qui parcourira la liste
     Element *actuel;
-    if (mode == FORWARD) {
-        actuel = liste->tete;
-    } else {
-        actuel = liste->queue;
-    }
+    actuel = mode == FORWARD ? liste->tete : liste->queue;
 
     //Affiche les valeurs du tableau
     printf("[");
     if (actuel) {
         while (true) {
             printf("%d", actuel->info);
-
-            if (mode == FORWARD) {
-                actuel = actuel->suivant;
-            } else {
-                actuel = actuel->precedent;
-            }
-
-            if (!actuel) {
-                break;
-            } else {
-                printf(",");
-            }
+            actuel = mode == FORWARD ? actuel->suivant : actuel->precedent;
+            if (!actuel) break;
+            printf(",");
         }
     }
     printf("]\n");
@@ -128,20 +127,14 @@ Status insererEnTete(Liste *liste, const Info *info) {
 
     //Alloue la mémoire pour le nouvel élément
     Element *element = (Element *) malloc(sizeof(Element));
-    if (!element) {
-        return MEMOIRE_INSUFFISANTE;
-    }
+    if (!element) return MEMOIRE_INSUFFISANTE;
 
     //Copie la valeur de info
     memcpy(&element->info, info, sizeof(Info));
 
     //Si la liste est vide, met l'élément en tant que tête et queue de la liste
     if (estVide(liste)) {
-        liste->tete = element;
-        liste->queue = element;
-        element->precedent = NULL;
-        element->suivant = NULL;
-
+        AddToEmptyList(liste, element);
     } else {
         //Lie le nouvel élément avec l'ancienne tête de liste
         element->suivant = liste->tete;
@@ -167,20 +160,14 @@ Status insererEnQueue(Liste *liste, const Info *info) {
 
     //Alloue la mémoire pour le nouvel élément
     Element *element = (Element *) malloc(sizeof(Element));
-    if (!element) {
-        return MEMOIRE_INSUFFISANTE;
-    }
+    if (!element) return MEMOIRE_INSUFFISANTE;
 
     //Copie la valeur de info
     memcpy(&element->info, info, sizeof(Info));
 
     //Si la liste est vide, met l'élément en tant que tête et queue de la liste
     if (estVide(liste)) {
-        liste->tete = element;
-        liste->queue = element;
-        element->precedent = NULL;
-        element->suivant = NULL;
-
+        AddToEmptyList(liste, element);
     } else {
         //Lie le nouvel élément avec l'ancienne queue de liste
         element->suivant = NULL;
@@ -202,12 +189,10 @@ Status insererEnQueue(Liste *liste, const Info *info) {
  */
 Status supprimerEnTete(Liste *liste, Info *info) {
     //Vérifie que la liste n'est pas vide
-    if (estVide(liste))
-        return LISTE_VIDE;
+    if (estVide(liste)) return LISTE_VIDE;
 
     //Copie la valeur de info en tête
-    if (info)
-        memcpy(info, &liste->tete->info, sizeof(Info));
+    if (info) memcpy(info, &liste->tete->info, sizeof(Info));
 
     //S'il n'y a qu'un élément
     if (!liste->tete->suivant) {
@@ -235,12 +220,10 @@ Status supprimerEnTete(Liste *liste, Info *info) {
  */
 Status supprimerEnQueue(Liste *liste, Info *info) {
     //Vérifie que la liste n'est pas vide
-    if (estVide(liste))
-        return LISTE_VIDE;
+    if (estVide(liste)) return LISTE_VIDE;
 
     //Copie la valeur de info en queue
-    if (info)
-        memcpy(info, &liste->queue->info, sizeof(Info));
+    if (info) memcpy(info, &liste->queue->info, sizeof(Info));
 
     //S'il n'y a qu'un élément
     if (!liste->queue->precedent) {
