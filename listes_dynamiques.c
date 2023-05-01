@@ -279,6 +279,9 @@ void supprimerSelonCritere(Liste *liste, bool (*critere)(size_t position, const 
             //Passe à l'élément suivant
             element = element->suivant;
         }
+
+        //Incrémente le compteur
+        ++compteur;
     }
 }
 // ------------------------------------------------------------------------------
@@ -328,7 +331,7 @@ bool sontEgales(const Liste *liste1, const Liste *liste2) {
     if (longueur(liste1) == longueur(liste2)) {
 
         //Retourne true si les deux listes sont vides
-        if(el1 == NULL && el2 == NULL)
+        if (el1 == NULL && el2 == NULL)
             return true;
 
         //Tant que les deux infos sont identiques
