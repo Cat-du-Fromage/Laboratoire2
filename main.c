@@ -15,6 +15,7 @@
 
 #include "listes_dynamiques.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 /**
  * @brief Vérifie que l'info entrée est égale à 6.
@@ -34,63 +35,132 @@ bool checkIf6(size_t position, const Info *info);
  * @return True si la position est impaire ou que info est compris entre deux
  * 		  valeurs, False sinon.
  */
-bool checkImpaireOuRange(size_t position, const Info *info);
+bool checkPositionImpaire(size_t position, const Info *info);
+
+/**
+ * Retourne vrais ou faux en text selon la valeur de b
+ * @param b Valeur booléene à regarder
+ * @return const char*
+ */
+const char* boolalpha(bool b){
+    return b ? "vrais" : "faux";
+}
 
 int main(void) {
-	Liste *l = initialiser();
 
-	const Info i4 = 4;
-	const Info i5 = 5;
-	const Info i6 = 6;
+    //Déclaration Info constantes
+    const Info i1 = 1;
+    const Info i2 = 2;
+    const Info i3 = 3;
+    const Info i4 = 4;
+    const Info i5 = 5;
+    const Info i6 = 6;
 
-	insererEnQueue(l, &i4);
-	insererEnTete(l, &i5);
-	insererEnQueue(l, &i6);
-	insererEnQueue(l, &i6);
-	insererEnQueue(l, &i5);
-	insererEnQueue(l, &i6);
-	printf("l = %lld : ", longueur(l));
-	afficher(l, FORWARD);
+    //Initialisation
+    printf("Initialisation de la liste l1\n");
+	Liste *l1 = initialiser();
 
-	supprimerSelonCritere(l, &checkIf6);
-	afficher(l, FORWARD);
+    //Insertion des éléments en tête et en queue
+    printf("Insere %d en queue : ", i3);
+	insererEnQueue(l1, &i3);
+    afficher(l1, FORWARD);
 
+    printf("Insere %d en tete : ", i2);
+	insererEnTete(l1, &i2);
+    afficher(l1, FORWARD);
+
+    printf("Insere %d en queue : ", i4);
+	insererEnQueue(l1, &i4);
+    afficher(l1, FORWARD);
+
+    printf("Insere %d en tete : ", i1);
+	insererEnTete(l1, &i1);
+    afficher(l1, FORWARD);
+
+    printf("Insere %d en queue : ", i5);
+    insererEnQueue(l1, &i5);
+    afficher(l1, FORWARD);
+
+    printf("Insere %d en queue : ", i6);
+    insererEnQueue(l1, &i6);
+    afficher(l1, FORWARD);
+
+    //Affichage de la longueur
+	printf("\nLongueur de la liste l1 : %lld\n", longueur(l1));
+
+    //Affichage à l1'envers
+    printf("Affichage de la liste l1 a l'envers");
+    afficher(l1, BACKWARD);
+
+    //Ajout d'autres valeur puis suppression selon conditions
+    printf("Ajout de quelques valeurs : ");
+    insererEnQueue(l1, &i6);
+    insererEnQueue(l1, &i3);
+    insererEnQueue(l1, &i6);
+    insererEnTete(l1, &i6);
+    afficher(l1, FORWARD);
+
+    printf("Suppresion des valeurs 6 : ");
+	supprimerSelonCritere(l1, &checkIf6);
+	afficher(l1, FORWARD);
+
+    printf("Suppresion des valeurs aux positions impaires : ");
+    supprimerSelonCritere(l1, &checkPositionImpaire);
+    afficher(l1, FORWARD);
+
+    //Création d'une nouvelle liste
 	Liste *l2 = initialiser();
-	insererEnTete(l2, &i5);
+	insererEnTete(l2, &i1);
+	insererEnTete(l2, &i3);
 	insererEnTete(l2, &i4);
-	insererEnTete(l2, &i5);
+    printf("\nCreation d'une nouvelle liste : ");
+    afficher(l2,FORWARD);
 
-	printf("%d\n", sontEgales(l, l2));
+    //Test de l'égalité entre les deux listes et la suppression en tête et en queue
+    printf("Les listes sont egales? : %s\n", boolalpha(sontEgales(l1, l2)));
 
-	supprimerEnTete(l, NULL);
-	printf("%d\n", sontEgales(l, l2));
+    Info infoSuppr = 0;
+    supprimerEnTete(l1,&infoSuppr);
+    printf("Suppression en tete dans l1 (info = %d) : ",infoSuppr);
+    afficher(l1,FORWARD);
 
-	vider(l, 0);
-	vider(l2, 0);
-	printf("%d\n", sontEgales(l, l2));
+    supprimerEnQueue(l2,&infoSuppr);
+    printf("Suppression en queue dans l2 (info = %d) : ",infoSuppr);
+    afficher(l2,FORWARD);
 
-	Liste *l3 = initialiser();
-	const Info i1 = 1;
-	const Info i2 = 2;
-	const	Info i3 = 3;
-	insererEnTete(l3, &i1);
-	insererEnTete(l3, &i6);
-	insererEnTete(l3, &i3);
-	insererEnTete(l3, &i2);
-	insererEnQueue(l3, &i6);
-	afficher(l3, BACKWARD);
-	afficher(l3, FORWARD);
+    printf("Les listes sont egales? : %s\n", boolalpha(sontEgales(l1, l2)));
 
-	supprimerSelonCritere(l3, &checkImpaireOuRange);
-	afficher(l3, FORWARD);
+	//Suppression du contenu des listes
+    printf("Suppression du contenu de l1 : ");
+    vider(l1,0);
+    afficher(l1,FORWARD);
+    printf("l1 est vide? : %s\n", boolalpha(estVide(l1)));
 
-	return 0;
+    size_t pos = 2;
+    printf("Suppresion de l2 depuis l'indice %lld : ",pos);
+    vider(l2,pos);
+    afficher(l2,FORWARD);
+    printf("l2 est vide? : %s\n", boolalpha(estVide(l2)));
+
+    pos = 0;
+    printf("Suppresion de l2 depuis l'indice %lld : ",pos);
+    vider(l2,pos);
+    afficher(l2,FORWARD);
+    printf("l2 est vide? : %s\n", boolalpha(estVide(l2)));
+
+    //libération de la mémoire
+    free(l1);
+    free(l2);
+
+	return EXIT_SUCCESS;
 }
 
 bool checkIf6(size_t position, const Info *info) {
+    (void)position; //Evite le warning "variable unused"
 	return *info == 6;
 }
 
-bool checkImpaireOuRange(size_t position, const Info *info) {
-	return position % 2 || *info <= 3 && *info > 1;
+bool checkPositionImpaire(size_t position, const Info *info) {
+    (void)info;//Evite le warning "variable unused"
+	return position % 2;
 }
