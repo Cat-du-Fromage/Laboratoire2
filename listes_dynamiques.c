@@ -24,7 +24,7 @@
  * @param element
  * @return
  */
-bool AddToEmptyList(Liste* liste, Element* element)
+void AddToEmptyList(Liste* liste, Element* element)
 {
    liste->tete = element;
    liste->queue = element;
