@@ -14,31 +14,18 @@
 */
 
 #include "listes_dynamiques.h"
+#include "utilitaires.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 
 
-void queueEtTeteANull(Liste *liste) {
-   liste->tete = NULL;
-   liste->queue = NULL;
-}
 
 
 
-/**
- * Utilitaire pour l'ajout d'un élément dans une liste vide
- * @param liste
- * @param element
- * @return
- */
-void ajoutAUneListeVide(Liste *liste, Element *element) {
-   liste->tete = element;
-   liste->queue = element;
-   element->precedent = NULL;
-   element->suivant = NULL;
-}
+
+
 
 // ------------------------------------------------------------------------------
 /**
@@ -54,7 +41,7 @@ Liste *initialiser(void) {
    if (list == NULL) return NULL;
 
    //Initialise les pointeurs à NULL
-   queueEtTeteANull(list);
+   metNullEnteteEnqueue(list);
 
    //Retourne le pointeur sur la list initialisée
    return list;
@@ -104,18 +91,15 @@ size_t longueur(const Liste *liste) {
  */
 void afficher(const Liste *liste, Mode mode) {
    //Initialise le pointeur qui parcourira la liste
-   Element *actuel;
-   actuel = mode == FORWARD ? liste->tete : liste->queue;
+   Element *actuel = mode == FORWARD ? liste->tete : liste->queue;
 
    //Affiche les valeurs du tableau
    printf("[");
-   if (actuel) {
-      while (true) {
-         printf("%d", actuel->info);
-         actuel = mode == FORWARD ? actuel->suivant : actuel->precedent;
-         if (!actuel) break;
-         printf(",");
-      }
+   while (actuel) {
+      printf("%d", actuel->info);
+      actuel = mode == FORWARD ? actuel->suivant : actuel->precedent;
+      if (!actuel) break;
+      printf(",");
    }
    printf("]\n");
 }
@@ -170,7 +154,7 @@ Status insererEnQueue(Liste *liste, const Info *info) {
    if (!element) return MEMOIRE_INSUFFISANTE;
 
    //Copie la valeur de info
-   memcpy(&element->info, info, sizeof(Info));
+   memcpyInfoSiPossible(&element->info, info);
 
    //Si la liste est vide, met l'élément en tant que tête et queue de la liste
    if (estVide(liste)) {
@@ -199,12 +183,12 @@ Status supprimerEnTete(Liste *liste, Info *info) {
    if (estVide(liste)) return LISTE_VIDE;
 
    //Copie la valeur de info en tête
-   if (info) memcpy(info, &liste->tete->info, sizeof(Info));
+   memcpyInfoSiPossible(info, &liste->tete->info);
 
    //S'il n'y a qu'un élément
    if (!liste->tete->suivant) {
       free(liste->tete);
-      queueEtTeteANull(liste);
+      metNullEnteteEnqueue(liste);
    } else {
       //Place le second élément en tête et supprime l'actuel premier
       liste->tete = liste->tete->suivant;
@@ -229,12 +213,12 @@ Status supprimerEnQueue(Liste *liste, Info *info) {
    if (estVide(liste)) return LISTE_VIDE;
 
    //Copie la valeur de info en queue
-   if (info) memcpy(info, &liste->queue->info, sizeof(Info));
+   memcpyInfoSiPossible(info, &liste->queue->info);
 
    //S'il n'y a qu'un élément
    if (!liste->queue->precedent) {
       free(liste->queue);
-      queueEtTeteANull(liste);
+      metNullEnteteEnqueue(liste);
    } else {
       //Place l'avant-dernier élément en queue et supprime l'actuel dernier
       liste->queue = liste->queue->precedent;
@@ -265,8 +249,7 @@ void supprimerSelonCritere(Liste *liste, bool (*critere)(size_t position, const 
             element->precedent->suivant = element->suivant;
             element->suivant->precedent = element->precedent;
          } else if (element == liste->tete && element == liste->queue) {
-            liste->tete = NULL;
-            liste->queue = NULL;
+            metNullEnteteEnqueue(liste);
          } else if (element == liste->tete) {
             liste->tete = element->suivant;
             liste->tete->precedent = NULL;
@@ -302,19 +285,17 @@ void vider(Liste *liste, size_t position) {
    //Obtient le dernier élément à ne pas supprimer
    Element *elementAGarder = liste->tete;
    for (size_t i = 1; i < position - 1; i++) {
-      if (elementAGarder == NULL) {
-         break;
-      }
+      if (elementAGarder == NULL) break;
       elementAGarder = elementAGarder->suivant;
    }
 
    //Si le dernier élément à garder ne dépasse pas la taille max (et donc vaut NULL)
    //ou si on supprime tout
    if (elementAGarder != NULL || position == 0) {
-      Status statu = OK;
+      Status status = OK;
       //Supprime l'élément en fin tant qu'on atteint pas le dernier élément à grader
-      while (liste->queue != elementAGarder || (statu == OK && position == 0)) {
-         statu = supprimerEnQueue(liste, NULL);
+      while (liste->queue != elementAGarder || (status == OK && position == 0)) {
+         status = supprimerEnQueue(liste, NULL);
       }
    }
 }
@@ -337,7 +318,6 @@ bool sontEgales(const Liste *liste1, const Liste *liste2) {
 
    //Vérifie que les 2 listes ont la même longueur
    if (longueur(liste1) == longueur(liste2)) {
-
       //Tant que les deux infos sont identiques
       while (el1->info == el2->info) {
          //Passe aux éléments suivants
@@ -345,8 +325,7 @@ bool sontEgales(const Liste *liste1, const Liste *liste2) {
          el2 = el2->suivant;
 
          //Renvoie true s'il n'y a plus d'élément dans les deux listes
-         if (el1 == NULL && el2 == NULL)
-            return true;
+         if (el1 == NULL && el2 == NULL) return true;
       }
    }
    return false;
