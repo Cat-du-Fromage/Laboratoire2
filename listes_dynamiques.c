@@ -267,7 +267,7 @@ void supprimerSelonCritere(Liste *liste, bool (*critere)(size_t position, const 
 void vider(Liste *liste, size_t position) {
    //Obtient le dernier élément à ne pas supprimer
    Element *elementAGarder = liste->tete;
-   for (size_t i = 1; i < position - 1; i++) {
+   for (size_t i = 0; i < position-1; i++) {
       if (elementAGarder == NULL) break;
       elementAGarder = elementAGarder->suivant;
    }

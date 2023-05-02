@@ -181,6 +181,47 @@ void testSupprimerSelonCritere(void)
    }
 }
 
+void testVider(void)
+{
+   printf("---------- supprimerSelonCritere ----------\n");
+   // vider tout
+   {
+      Liste* testListe = construireTestListe(8); // valeurs infos: 0 -> 7
+      //Suppression du contenu des listes
+      printf("Suppression du contenu en entier : ");
+      vider(testListe, 0);
+      bool resultat = estVide(testListe);
+      printf("testVider(depuis index 0) :  %s\n", btoa(resultat));
+      libererListe(testListe);
+   }
+   // vider depuis indice 2
+   {
+      const int attendu[2] = {0,1};
+      Liste* valeursAttendues = construireListeAvecValeurs(attendu, 3);
+      Liste* testListe = construireTestListe(8); // valeurs infos: 0 -> 7
+      const size_t pos = 2;
+      printf("Suppresion depuis l'indice %lld : ", pos);
+      vider(testListe, pos);
+      bool resultat = sontEgales(valeursAttendues, testListe);
+      afficher(testListe, FORWARD);
+      printf("testVider(Suppresion depuis l'indice %lld) : %s\n", pos, btoa(resultat));
+      libererListe(testListe);
+   }
+   // vider depuis indice 4
+   {
+      const int attendu[4] = {0,1,2,3};
+      Liste* valeursAttendues = construireListeAvecValeurs(attendu, 3);
+      Liste* testListe = construireTestListe(8); // valeurs infos: 0 -> 7
+      const size_t pos = 4;
+      printf("Suppresion depuis l'indice %lld : ", pos);
+      vider(testListe, pos);
+      bool resultat = sontEgales(valeursAttendues, testListe);
+      afficher(testListe, FORWARD);
+      printf("testVider(Suppresion depuis l'indice %lld) : %s\n", pos, btoa(resultat));
+      libererListe(testListe);
+   }
+}
+
 
 
 

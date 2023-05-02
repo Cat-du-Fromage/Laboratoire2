@@ -90,4 +90,12 @@ void testSupprimerEnqueue(void);
  */
 void testSupprimerSelonCritere(void);
 
+/**
+ * @brief Test la fonction vider
+ * tout (depuis position 0)
+ * depuis position 2
+ * depuis position 4
+ */
+void testVider(void);
+
 #endif //LABORATOIRE2_TESTUNITAIRE_H
