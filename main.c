@@ -1,6 +1,6 @@
 /*
 -----------------------------------------------------------------------------------
-Nom du fichier : test.c
+Nom du fichier : main.c
 Auteur(s) : Johan Voland, Florian Duruz, Guillaume Dunant
 Date creation : 30/04/2023
 Description : Tests unitaires des fonctions implémentées dans ce laboratoire.
@@ -20,31 +20,6 @@ Compilateur : Mingw-w64 gcc 12.2.0
 //===============================================================================
 // ---- UTILITAIRE ----
 //===============================================================================
-
-// ------------------------------------------------------------------------------
-/**
- * @brief Met la queue et tete de liste à NULL
- * @param liste liste à modifier
- */
-void metNullEnteteEnqueue(Liste *liste);
-// ------------------------------------------------------------------------------
-
-// ------------------------------------------------------------------------------
-/**
- * @brief Utilitaire pour l'ajout d'un élément dans une liste vide
- * @param liste liste actuellement vide à modifier
- * @param element élément à ajouter
- */
-void ajoutAUneListeVide(Liste *liste, Element *element);
-// ------------------------------------------------------------------------------
-
-/**
- * @brief fait un memcpy de l'info si cela est possible
- * @param destination destination
- * @param source source
- */
-void memcpyInfoSiPossible(Info *destination, const Info* source);
-
 /**
  * @brief vérifie si la position entrée est impaire
  * @param position position dans la liste
@@ -194,22 +169,6 @@ int main(void) {
 //===============================================================================
 // ---- Implémentations Utilitaire ----
 //===============================================================================
-void metNullEnteteEnqueue(Liste *liste) {
-   liste->tete = NULL;
-   liste->queue = NULL;
-}
-
-void ajoutAUneListeVide(Liste *liste, Element *element) {
-   liste->tete = element;
-   liste->queue = element;
-   element->precedent = NULL;
-   element->suivant = NULL;
-}
-
-void memcpyInfoSiPossible(Info *destination, const Info* source)
-{
-   if (destination && source) memcpy(destination, source, sizeof(Info));
-}
 
 bool estImpair(size_t position, const Info *info) {
    (void) info;//Evite le warning "variable unused"

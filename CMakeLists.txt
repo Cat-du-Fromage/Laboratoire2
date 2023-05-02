@@ -5,4 +5,3 @@ set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_FLAGS "-std=c17 -Wall -Wconversion -Wextra -Wsign-conversion -Wpedantic")
 
 add_executable(Laboratoire2 main.c listes_dynamiques.c)
-add_executable(testLaboratoire2 test.c listes_dynamiques.c test.c)
