@@ -7,7 +7,7 @@ Description : Tests unitaires des fonctions implémentées dans ce laboratoire.
 Remarque(s) : Certains cas limites n'ont pas pu être étudiés comme la
               taille maximale des types dû à un manque de RAM et probablement
               d'optimisation.
-Compilateur : Mingw-w64 g++ 11.2.0
+Compilateur : Mingw-w64 gcc 12.2.0
 -----------------------------------------------------------------------------------
 */
 
@@ -32,7 +32,7 @@ void libererListe(Liste* liste);
  * @param numElement nombre d'éléments souhaités
  * @return liste avec contenu initialisé
  */
-Liste* construireTestListe(size_t numElement);
+Liste* construireTestListe(int numElement);
 
 /**
  * @brief Construit une liste initialisant les valeurs selon un tableau (utilise
@@ -41,7 +41,7 @@ Liste* construireTestListe(size_t numElement);
  * @param numvaleur taille du tableau donné
  * @return liste avec objets initialisés selon les valeurs données
  */
-Liste* construireListeAvecValeurs(const int valeurs[], size_t numvaleur);
+Liste* construireListeAvecValeurs(const int valeurs[], size_t numValeur);
 
 /**
  * @brief Test la méthode longueur selon les cas suivants:
