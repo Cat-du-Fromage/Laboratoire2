@@ -14,7 +14,7 @@
 */
 
 #include "listes_dynamiques.h"
-#include "utilitaires.h"
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -32,7 +32,8 @@ Liste *initialiser(void) {
    if (list == NULL) return NULL;
 
    //Initialise les pointeurs à NULL
-   metNullEnteteEnqueue(list);
+   list->tete = NULL;
+   list->queue = NULL;
 
    //Retourne le pointeur sur la list initialisée
    return list;
@@ -110,11 +111,14 @@ Status insererEnTete(Liste *liste, const Info *info) {
    if (!element) return MEMOIRE_INSUFFISANTE;
 
    //Copie la valeur de info
-   memcpyInfoSiPossible(&element->info, info);
+   if (info) memcpy(&element->info, info, sizeof(Info));
 
    //Si la liste est vide, met l'élément en tant que tête et queue de la liste
    if (estVide(liste)) {
-      ajoutAUneListeVide(liste, element);
+      liste->tete = element;
+      liste->queue = element;
+      element->precedent = NULL;
+      element->suivant = NULL;
    } else {
       //Lie le nouvel élément avec l'ancienne tête de liste
       element->suivant = liste->tete;
@@ -142,11 +146,14 @@ Status insererEnQueue(Liste *liste, const Info *info) {
    if (!element) return MEMOIRE_INSUFFISANTE;
 
    //Copie la valeur de info
-   memcpyInfoSiPossible(&element->info, info);
+   if (info) memcpy(&element->info, info, sizeof(Info));
 
    //Si la liste est vide, met l'élément en tant que tête et queue de la liste
    if (estVide(liste)) {
-      ajoutAUneListeVide(liste, element);
+      liste->tete = element;
+      liste->queue = element;
+      element->precedent = NULL;
+      element->suivant = NULL;
    } else {
       //Lie le nouvel élément avec l'ancienne queue de liste
       element->suivant = NULL;
@@ -171,12 +178,13 @@ Status supprimerEnTete(Liste *liste, Info *info) {
    if (estVide(liste)) return LISTE_VIDE;
 
    //Copie la valeur de info de la nouvelle entête
-   memcpyInfoSiPossible(info, &liste->tete->info);
+   if (info) memcpy(info, &liste->tete->info, sizeof(Info));
 
    //S'il n'y a qu'un élément
    if (!liste->tete->suivant) {
       free(liste->tete);
-      metNullEnteteEnqueue(liste);
+      liste->tete = NULL;
+      liste->queue = NULL;
    } else {
       //Place le second élément en tête et supprime l'actuel premier
       liste->tete = liste->tete->suivant;
@@ -200,12 +208,13 @@ Status supprimerEnQueue(Liste *liste, Info *info) {
    if (estVide(liste)) return LISTE_VIDE;
 
    //Copie la valeur de info en queue
-   memcpyInfoSiPossible(info, &liste->queue->info);
+   if (info) memcpy(info, &liste->queue->info, sizeof(Info));
 
    //S'il n'y a qu'un élément
    if (!liste->queue->precedent) {
       free(liste->queue);
-      metNullEnteteEnqueue(liste);
+      liste->tete = NULL;
+      liste->queue = NULL;
    } else {
       //Place l'avant-dernier élément en queue et supprime l'actuel dernier
       liste->queue = liste->queue->precedent;
@@ -236,7 +245,8 @@ void supprimerSelonCritere(Liste *liste, bool (*critere)(size_t position, const 
             element->precedent->suivant = element->suivant;
             element->suivant->precedent = element->precedent;
          } else if (element == liste->tete && element == liste->queue) {
-            metNullEnteteEnqueue(liste);
+            liste->tete = NULL;
+            liste->queue = NULL;
          } else if (element == liste->tete) {
             liste->tete = element->suivant;
             liste->tete->precedent = NULL;
