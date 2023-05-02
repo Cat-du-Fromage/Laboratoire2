@@ -82,6 +82,12 @@ void testSupprimerEntete(void);
  */
 void testSupprimerEnqueue(void);
 
+/**
+ * @brief Test la suppression d'objet en queue dans les cas suivants
+ * positions impaires
+ * liste contenant des éléments
+ * (la comparaison est faites avec une liste fixe)
+ */
 void testSupprimerSelonCritere(void);
 
 #endif //LABORATOIRE2_TESTUNITAIRE_H

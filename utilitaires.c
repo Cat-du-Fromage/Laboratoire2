@@ -32,3 +32,8 @@ bool estImpair(size_t position, const Info *info) {
    (void) info;//Evite le warning "variable unused"
    return !(position % 2);
 }
+
+bool egalA6(size_t position, const Info *info)
+{
+   return *info == 6;
+}

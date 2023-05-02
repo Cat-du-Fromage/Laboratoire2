@@ -35,14 +35,10 @@ Liste* construireListeAvecValeurs(const int valeurs[], size_t numvaleur)
    }
    return liste;
 }
-/*
-void test(const int attendu[], bool (*fonctionTest)(Liste* verifications, const Info* info))
-{
-   Liste* valeursAttendues = construireListeAvecValeurs(attendu, 4);
-}
-*/
+
 void testInsererEntete(void)
 {
+   printf("---------- insererEnTete ----------\n");
    const int attendu[4] = {9,2,0,1};
    Liste* valeursAttendues = construireListeAvecValeurs(attendu, 4);
    //contient de base 0,1
@@ -59,6 +55,7 @@ void testInsererEntete(void)
 
 void testInsererEnqueue(void)
 {
+   printf("---------- insererEnQueue ----------\n");
    const int attendu[4] = {0,1,2,9};
    Liste* valeursAttendues = construireListeAvecValeurs(attendu, 4);
    //contient de base 0,1
@@ -75,6 +72,7 @@ void testInsererEnqueue(void)
 
 void testLongueur(void)
 {
+   printf("---------- longueur ----------\n");
    bool resultat;
    size_t longueurReel;
    // 0 élément
@@ -99,6 +97,7 @@ void testLongueur(void)
 
 void testSupprimerEntete(void)
 {
+   printf("---------- supprimerEnTete ----------\n");
    // test sur liste vide
    {
       const Status statusAttendu = LISTE_VIDE;
@@ -128,6 +127,7 @@ void testSupprimerEntete(void)
 
 void testSupprimerEnqueue(void)
 {
+   printf("---------- supprimerEnQueue ----------\n");
    // test sur liste vide
    {
       const Status statusAttendu = LISTE_VIDE;
@@ -157,6 +157,7 @@ void testSupprimerEnqueue(void)
 
 void testSupprimerSelonCritere(void)
 {
+   printf("---------- supprimerSelonCritere ----------\n");
    // suppression des éléments en position impair
    {
       const int attendu[4] = {0,2,4,6};
@@ -164,7 +165,18 @@ void testSupprimerSelonCritere(void)
       Liste* testListe = construireTestListe(8); // valeurs infos: 0 -> 7
       supprimerSelonCritere(testListe, &estImpair);
       bool resultat = sontEgales(valeursAttendues, testListe);
-      printf("testSupprimerSelonCritere: %s\n", btoa(resultat));
+      printf("testSupprimerSelonCritere(positions impaires): %s\n", btoa(resultat));
+      libererListe(testListe);
+   }
+
+   // suppression des éléments en position impair
+   {
+      const int attendu[7] = {0,1,2,3,4,5,7};
+      Liste* valeursAttendues = construireListeAvecValeurs(attendu, 7);
+      Liste* testListe = construireTestListe(8); // valeurs infos: 0 -> 7
+      supprimerSelonCritere(testListe, &egalA6);
+      bool resultat = sontEgales(valeursAttendues, testListe);
+      printf("testSupprimerSelonCritere(egal a 6): %s\n", btoa(resultat));
       libererListe(testListe);
    }
 }

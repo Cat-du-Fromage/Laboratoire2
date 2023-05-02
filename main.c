@@ -48,65 +48,6 @@ bool checkPositionImpaire(size_t position, const Info *info);
 const char *boolalpha(bool b) {
    return b ? "vrai" : "faux";
 }
-/*
-void libererListe(Liste* liste)
-{
-   free(liste);
-   liste = NULL;
-}
-
-// Utilitaire pour les testes
-
-Liste* construireTestListe(size_t numElement)
-{
-   Liste* liste = initialiser();
-   for (int i = 0; i < numElement; ++i) {
-      Info info = i;
-      insererEnQueue(liste, &info);
-   }
-   return liste;
-}
-
-Liste* construireListeAvecValeurs(const int valeurs[], size_t numvaleur)
-{
-   Liste* liste = initialiser();
-   for (int i = 0; i < numvaleur; ++i) {
-      Info info = valeurs[i];
-      insererEnQueue(liste, &info);
-   }
-   return liste;
-}
-
-void testInsererEntete()
-{
-   const int attendu[4] = {9,2,0,1};
-   Liste* valeursAttendues = construireListeAvecValeurs(attendu, 4);
-   //contient de base 0,1
-   Liste* testListe = construireTestListe(2);
-   Info i1 = 2;
-   Info i2 = 9;
-   insererEnTete(testListe, &i1);
-   insererEnTete(testListe, &i2);
-   printf("resultat : testInsererEntete = %s\n", boolalpha(sontEgales(valeursAttendues, testListe)));
-   libererListe(valeursAttendues);
-   libererListe(testListe);
-}
-
-void testInsererEnqueue()
-{
-   const int attendu[4] = {0,1,2,9};
-   Liste* valeursAttendues = construireListeAvecValeurs(attendu, 4);
-   //contient de base 0,1
-   Liste* testListe = construireTestListe(2);
-   Info i1 = 2;
-   Info i2 = 9;
-   insererEnQueue(testListe, &i1);
-   insererEnQueue(testListe, &i2);
-   printf("resultat : testInsererEnqueue = %s\n", boolalpha(sontEgales(valeursAttendues, testListe)));
-   libererListe(valeursAttendues);
-   libererListe(testListe);
-}
-*/
 
 int main(void) {
 

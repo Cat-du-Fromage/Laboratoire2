@@ -52,5 +52,13 @@ void memcpyInfoSiPossible(Info *destination, const Info* source);
  */
 bool estImpair(size_t position, const Info *info);
 
+/**
+ * @brief vérifie si l'Info est égal à 6
+ * @param position position dans la liste(inutilisé, mais demandé dans le cadre d'un test unitaire)
+ * @param info info à comparer
+ * @return true si égal à 6, false sinon
+ */
+bool egalA6(size_t position, const Info *info);
+
 
 #endif //LABORATOIRE2_UTILITAIRES_H
