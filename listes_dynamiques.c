@@ -163,7 +163,7 @@ Status insererEnQueue(Liste *liste, const Info *info) {
  * @brief Suppression de l'élément en tête de liste.
  *
  * @param liste Liste contenant l'élément à supprimer.
- * @param info Info stocké en tête de liste.
+ * @param info Info stockée en tête de liste.
  * @return LISTE_VIDE si la liste est vide, OK sinon.
  */
 Status supprimerEnTete(Liste *liste, Info *info) {
@@ -193,7 +193,7 @@ Status supprimerEnTete(Liste *liste, Info *info) {
  * @brief Suppression de l'élément en queue de liste.
  *
  * @param liste Liste contenant l'élément à supprimer.
- * @param info Info stocké en queue de liste.
+ * @param info Info stockée en queue de liste.
  * @return LISTE_VIDE si la liste est vide, OK sinon.
  */
 Status supprimerEnQueue(Liste *liste, Info *info) {
@@ -276,7 +276,8 @@ void vider(Liste *liste, size_t position) {
    //ou si on supprime tout
    if (elementAGarder != NULL || position == 0) {
       Status status = OK;
-      //Supprime l'élément en fin tant qu'on n'atteint pas le dernier élément à grader
+      //Supprime l'élément en fin tant qu'on n'atteint pas le dernier élément à
+		// grader
       while (liste->queue != elementAGarder || (status == OK && position == 0)) {
          status = supprimerEnQueue(liste, NULL);
       }

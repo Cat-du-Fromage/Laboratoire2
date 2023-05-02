@@ -43,13 +43,13 @@ int main(void) {
    // ===============================================
 
    Liste* l0 = construireTestListe(8);
-   //Affichage à l0'envers
+   //Affichage dans l'ordre
    {
       printf("Affichage de la liste l1");
       afficher(l0, FORWARD);
    }
 
-   //Affichage à l0'envers
+   //Affichage à l'envers
    {
       printf("Affichage de la liste l1 a l'envers");
       afficher(l0, BACKWARD);

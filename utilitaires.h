@@ -45,7 +45,7 @@ void ajoutAUneListeVide(Liste *liste, Element *element);
 void memcpyInfoSiPossible(Info *destination, const Info* source);
 
 /**
- * @brief vérifie si la position entrée est impair
+ * @brief vérifie si la position entrée est impaire
  * @param position position dans la liste
  * @param info inutilisé mais demandé dans le cadre du test unitaire
  * @return true si pair, false si impair
@@ -54,7 +54,8 @@ bool estImpair(size_t position, const Info *info);
 
 /**
  * @brief vérifie si l'Info est égal à 6
- * @param position position dans la liste(inutilisé, mais demandé dans le cadre d'un test unitaire)
+ * @param position position dans la liste(inutilisé, mais demandé dans le cadre
+ * 		 d'un test unitaire)
  * @param info info à comparer
  * @return true si égal à 6, false sinon
  */
