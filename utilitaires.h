@@ -3,15 +3,11 @@
 Nom du fichier : Utilitaires.h
 Auteur(s) : Florian Duruz
 Date creation : 01/05/2023
-Description : <à compléter>
+Description : fonctions communes à plusieurs implémentations de liste_dynamiques.c
 Remarque(s) : <à compléter>
-Compilateur : Mingw-w64 g++ 11.2.0
+Compilateur : Mingw-w64 gcc 12.2.0
 -----------------------------------------------------------------------------------
 */
-
-//
-// Created by Florian Duruz on 01/05/2023.
-//
 
 #ifndef LABORATOIRE2_UTILITAIRES_H
 #include <stdbool.h>
@@ -26,7 +22,7 @@ Compilateur : Mingw-w64 g++ 11.2.0
 // ------------------------------------------------------------------------------
 /**
  * Met la queue et tete de liste à NULL
- * @param liste
+ * @param liste liste à modifier
  */
 void metNullEnteteEnqueue(Liste *liste);
 // ------------------------------------------------------------------------------
@@ -34,17 +30,16 @@ void metNullEnteteEnqueue(Liste *liste);
 // ------------------------------------------------------------------------------
 /**
  * Utilitaire pour l'ajout d'un élément dans une liste vide
- * @param liste
- * @param element
- * @return
+ * @param liste liste à modifier
+ * @param element élément à ajouter
  */
 void ajoutAUneListeVide(Liste *liste, Element *element);
 // ------------------------------------------------------------------------------
 
 /**
- *
- * @param liste
- * @param info
+ * fait un memcpy de l'info si cela est possible
+ * @param destination destination
+ * @param source source
  */
 void memcpyInfoSiPossible(Info *destination, const Info* source);
 

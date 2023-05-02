@@ -17,7 +17,6 @@
 #include "utilitaires.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 // ------------------------------------------------------------------------------
 /**
@@ -54,7 +53,7 @@ bool estVide(const Liste *liste) {
 
 // ------------------------------------------------------------------------------
 /**
- * @brief Renvoie combien il y a d'élément dans liste.
+ * @brief Renvoie combien il y a d'éléments dans liste.
  *
  * @param liste Liste à parcourir.
  * @return Nombre d'éléments dans la liste.
@@ -68,7 +67,6 @@ size_t longueur(const Liste *liste) {
       ++compteur;
       actuel = actuel->suivant;
    }
-
    return compteur;
 }
 // ------------------------------------------------------------------------------
@@ -107,7 +105,6 @@ void afficher(const Liste *liste, Mode mode) {
  * 		  s'il n'y a pas assez de mémoire pour créer l'élément.
  */
 Status insererEnTete(Liste *liste, const Info *info) {
-
    //Alloue la mémoire pour le nouvel élément
    Element *element = (Element *) malloc(sizeof(Element));
    if (!element) return MEMOIRE_INSUFFISANTE;
@@ -125,7 +122,6 @@ Status insererEnTete(Liste *liste, const Info *info) {
       liste->tete->precedent = element;
       liste->tete = element;
    }
-
    return OK;
 }
 // ------------------------------------------------------------------------------
@@ -164,10 +160,10 @@ Status insererEnQueue(Liste *liste, const Info *info) {
 
 // ------------------------------------------------------------------------------
 /**
- * @brief Supression de l'élément en tête de liste.
+ * @brief Suppression de l'élément en tête de liste.
  *
  * @param liste Liste contenant l'élément à supprimer.
- * @param info Info stockée en tête de liste.
+ * @param info Info stocké en tête de liste.
  * @return LISTE_VIDE si la liste est vide, OK sinon.
  */
 Status supprimerEnTete(Liste *liste, Info *info) {
@@ -194,14 +190,13 @@ Status supprimerEnTete(Liste *liste, Info *info) {
 
 // ------------------------------------------------------------------------------
 /**
- * @brief Supression de l'élément en queue de liste.
+ * @brief Suppression de l'élément en queue de liste.
  *
  * @param liste Liste contenant l'élément à supprimer.
- * @param info Info stockée en queue de liste.
+ * @param info Info stocké en queue de liste.
  * @return LISTE_VIDE si la liste est vide, OK sinon.
  */
 Status supprimerEnQueue(Liste *liste, Info *info) {
-   //Vérifie que la liste n'est pas vide
    if (estVide(liste)) return LISTE_VIDE;
 
    //Copie la valeur de info en queue
@@ -224,7 +219,7 @@ Status supprimerEnQueue(Liste *liste, Info *info) {
 
 // ------------------------------------------------------------------------------
 /**
- * @brief Supression des éléments de la liste vérifant le paramètre critere.
+ * @brief Suppression des éléments de la liste vérifiant le paramètre critère.
  *
  * @param liste Liste contentant les éléments à supprimer.
  * @param critere Fonction définissant le critère des éléments à supprimer.
@@ -281,11 +276,11 @@ void vider(Liste *liste, size_t position) {
       elementAGarder = elementAGarder->suivant;
    }
 
-   //Si le dernier élément à garder ne dépasse pas la taille max (et donc vaut NULL)
+   //Si le dernier élément à garder ne dépasse pas la taille max (et vaut donc NULL)
    //ou si on supprime tout
    if (elementAGarder != NULL || position == 0) {
       Status status = OK;
-      //Supprime l'élément en fin tant qu'on atteint pas le dernier élément à grader
+      //Supprime l'élément en fin tant qu'on n'atteint pas le dernier élément à grader
       while (liste->queue != elementAGarder || (status == OK && position == 0)) {
          status = supprimerEnQueue(liste, NULL);
       }
@@ -309,16 +304,16 @@ bool sontEgales(const Liste *liste1, const Liste *liste2) {
    if (el1 == NULL && el2 == NULL) return true;
 
    //Vérifie que les 2 listes ont la même longueur
-   if (longueur(liste1) == longueur(liste2)) {
-      //Tant que les deux infos sont identiques
-      while (el1->info == el2->info) {
-         //Passe aux éléments suivants
-         el1 = el1->suivant;
-         el2 = el2->suivant;
+   if (longueur(liste1) != longueur(liste2)) return false;
 
-         //Renvoie true s'il n'y a plus d'élément dans les deux listes
-         if (el1 == NULL && el2 == NULL) return true;
-      }
+   //Tant que les deux infos sont identiques
+   while (el1->info == el2->info) {
+      //Passe aux éléments suivants
+      el1 = el1->suivant;
+      el2 = el2->suivant;
+
+      //Renvoie true s'il n'y a plus d'élément dans les deux listes
+      if (el1 == NULL && el2 == NULL) return true;
    }
    return false;
 }

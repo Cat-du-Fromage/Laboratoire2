@@ -3,9 +3,9 @@
 Nom du fichier : Utilitaires.c
 Auteur(s) : Florian Duruz
 Date creation : 01/05/2023
-Description : <à compléter>
-Remarque(s) : <à compléter>
-Compilateur : Mingw-w64 g++ 11.2.0
+Description : implémentation des fonctions utilitaires.h
+Remarque(s) : -
+Compilateur : Mingw-w64 gcc 12.2.0
 -----------------------------------------------------------------------------------
 */
 
