@@ -1,27 +1,28 @@
 /*
 -----------------------------------------------------------------------------------
 Nom du fichier : Utilitaires.h
-Auteur(s) : Florian Duruz
+Auteur(s) : Johan Voland, Florian Duruz, Guillaume Dunant
 Date creation : 01/05/2023
 Description : fonctions communes à plusieurs implémentations de liste_dynamiques.c
-Remarque(s) : <à compléter>
+Remarque(s) : -
 Compilateur : Mingw-w64 gcc 12.2.0
 -----------------------------------------------------------------------------------
 */
 
 #ifndef LABORATOIRE2_UTILITAIRES_H
+
+#define LABORATOIRE2_UTILITAIRES_H
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
-#define LABORATOIRE2_UTILITAIRES_H
 
 #include "listes_dynamiques.h"
 
 
 // ------------------------------------------------------------------------------
 /**
- * Met la queue et tete de liste à NULL
+ * @brief Met la queue et tete de liste à NULL
  * @param liste liste à modifier
  */
 void metNullEnteteEnqueue(Liste *liste);
@@ -29,19 +30,27 @@ void metNullEnteteEnqueue(Liste *liste);
 
 // ------------------------------------------------------------------------------
 /**
- * Utilitaire pour l'ajout d'un élément dans une liste vide
- * @param liste liste à modifier
+ * @brief Utilitaire pour l'ajout d'un élément dans une liste vide
+ * @param liste liste actuellement vide à modifier
  * @param element élément à ajouter
  */
 void ajoutAUneListeVide(Liste *liste, Element *element);
 // ------------------------------------------------------------------------------
 
 /**
- * fait un memcpy de l'info si cela est possible
+ * @brief fait un memcpy de l'info si cela est possible
  * @param destination destination
  * @param source source
  */
 void memcpyInfoSiPossible(Info *destination, const Info* source);
+
+/**
+ * @brief vérifie si la position entrée est impair
+ * @param position position dans la liste
+ * @param info inutilisé mais demandé dans le cadre du test unitaire
+ * @return true si pair, false si impair
+ */
+bool estImpair(size_t position, const Info *info);
 
 
 #endif //LABORATOIRE2_UTILITAIRES_H

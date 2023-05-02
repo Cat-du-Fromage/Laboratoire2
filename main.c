@@ -14,6 +14,7 @@
 */
 
 #include "listes_dynamiques.h"
+#include "testUnitaire.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -45,10 +46,67 @@ bool checkPositionImpaire(size_t position, const Info *info);
  * @return const char*
  */
 const char *boolalpha(bool b) {
-   return b ? "vrais" : "faux";
+   return b ? "vrai" : "faux";
+}
+/*
+void libererListe(Liste* liste)
+{
+   free(liste);
+   liste = NULL;
 }
 
+// Utilitaire pour les testes
 
+Liste* construireTestListe(size_t numElement)
+{
+   Liste* liste = initialiser();
+   for (int i = 0; i < numElement; ++i) {
+      Info info = i;
+      insererEnQueue(liste, &info);
+   }
+   return liste;
+}
+
+Liste* construireListeAvecValeurs(const int valeurs[], size_t numvaleur)
+{
+   Liste* liste = initialiser();
+   for (int i = 0; i < numvaleur; ++i) {
+      Info info = valeurs[i];
+      insererEnQueue(liste, &info);
+   }
+   return liste;
+}
+
+void testInsererEntete()
+{
+   const int attendu[4] = {9,2,0,1};
+   Liste* valeursAttendues = construireListeAvecValeurs(attendu, 4);
+   //contient de base 0,1
+   Liste* testListe = construireTestListe(2);
+   Info i1 = 2;
+   Info i2 = 9;
+   insererEnTete(testListe, &i1);
+   insererEnTete(testListe, &i2);
+   printf("resultat : testInsererEntete = %s\n", boolalpha(sontEgales(valeursAttendues, testListe)));
+   libererListe(valeursAttendues);
+   libererListe(testListe);
+}
+
+void testInsererEnqueue()
+{
+   const int attendu[4] = {0,1,2,9};
+   Liste* valeursAttendues = construireListeAvecValeurs(attendu, 4);
+   //contient de base 0,1
+   Liste* testListe = construireTestListe(2);
+   Info i1 = 2;
+   Info i2 = 9;
+   insererEnQueue(testListe, &i1);
+   insererEnQueue(testListe, &i2);
+   printf("resultat : testInsererEnqueue = %s\n", boolalpha(sontEgales(valeursAttendues, testListe)));
+   libererListe(valeursAttendues);
+   libererListe(testListe);
+}
+*/
 
 int main(void) {
 
@@ -60,50 +118,55 @@ int main(void) {
    const Info i5 = 5;
    const Info i6 = 6;
 
+   // insererEnTete
+   testInsererEntete();
+
+   // insererEnQueue
+   testInsererEnqueue();
+
+   // longueur
+   testLongueur();
+
+   // supprimerEntete
+   testSupprimerEntete();
+
+   // supprimerEnqueue
+   testSupprimerEnqueue();
+
+   // supprimerSelonCritere
+   testSupprimerSelonCritere();
+
+   // ===============================================
+
+
    //Initialisation
    printf("Initialisation de la liste l1\n");
    Liste *l1 = initialiser();
 
-   //Insertion des éléments en tête et en queue
-   printf("Insere %d en queue : ", i3);
-   insererEnQueue(l1, &i3);
-   afficher(l1, FORWARD);
+   Liste* l0 = construireTestListe(8);
+   //Affichage à l0'envers
+   {
+      printf("Affichage de la liste l1");
+      afficher(l0, FORWARD);
+   }
 
-   printf("Insere %d en tete : ", i2);
-   insererEnTete(l1, &i2);
-   afficher(l1, FORWARD);
+   //Affichage à l0'envers
+   {
+      printf("Affichage de la liste l1 a l'envers");
+      afficher(l0, BACKWARD);
+   }
 
-   printf("Insere %d en queue : ", i4);
-   insererEnQueue(l1, &i4);
-   afficher(l1, FORWARD);
 
-   printf("Insere %d en tete : ", i1);
-   insererEnTete(l1, &i1);
-   afficher(l1, FORWARD);
-
-   printf("Insere %d en queue : ", i5);
-   insererEnQueue(l1, &i5);
-   afficher(l1, FORWARD);
-
-   printf("Insere %d en queue : ", i6);
-   insererEnQueue(l1, &i6);
-   afficher(l1, FORWARD);
-
-   //Affichage de la longueur
-   printf("\nLongueur de la liste l1 : %lld\n", longueur(l1));
-
-   //Affichage à l1'envers
-   printf("Affichage de la liste l1 a l'envers");
-   afficher(l1, BACKWARD);
 
    //Ajout d'autres valeur puis suppression selon conditions
-   printf("Ajout de quelques valeurs : ");
-   insererEnQueue(l1, &i6);
-   insererEnQueue(l1, &i3);
-   insererEnQueue(l1, &i6);
-   insererEnTete(l1, &i6);
-   afficher(l1, FORWARD);
-
+   {
+      printf("Ajout de quelques valeurs : ");
+      insererEnQueue(l1, &i6);
+      insererEnQueue(l1, &i3);
+      insererEnQueue(l1, &i6);
+      insererEnTete(l1, &i6);
+      afficher(l1, FORWARD);
+   }
    printf("Suppresion des valeurs 6 : ");
    supprimerSelonCritere(l1, &checkIf6);
    afficher(l1, FORWARD);
@@ -170,5 +233,5 @@ bool checkIf6(size_t position, const Info *info) {
 
 bool checkPositionImpaire(size_t position, const Info *info) {
    (void) info;//Evite le warning "variable unused"
-   return position % 2;
+   return !(position % 2);
 }

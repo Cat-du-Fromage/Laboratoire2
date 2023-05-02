@@ -1,7 +1,7 @@
 /*
 -----------------------------------------------------------------------------------
 Nom du fichier : Utilitaires.c
-Auteur(s) : Florian Duruz
+Auteur(s) : Johan Voland, Florian Duruz, Guillaume Dunant
 Date creation : 01/05/2023
 Description : implémentation des fonctions utilitaires.h
 Remarque(s) : -
@@ -26,4 +26,9 @@ void ajoutAUneListeVide(Liste *liste, Element *element) {
 void memcpyInfoSiPossible(Info *destination, const Info* source)
 {
    if (destination && source) memcpy(destination, source, sizeof(Info));
+}
+
+bool estImpair(size_t position, const Info *info) {
+   (void) info;//Evite le warning "variable unused"
+   return !(position % 2);
 }

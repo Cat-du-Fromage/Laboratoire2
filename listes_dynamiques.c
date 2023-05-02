@@ -170,7 +170,7 @@ Status supprimerEnTete(Liste *liste, Info *info) {
    //Vérifie que la liste n'est pas vide
    if (estVide(liste)) return LISTE_VIDE;
 
-   //Copie la valeur de info en tête
+   //Copie la valeur de info de la nouvelle entête
    memcpyInfoSiPossible(info, &liste->tete->info);
 
    //S'il n'y a qu'un élément
@@ -249,13 +249,9 @@ void supprimerSelonCritere(Liste *liste, bool (*critere)(size_t position, const 
          Element *tmp = element;
          element = element->suivant;
          free(tmp);
-
       } else {
-         //Passe à l'élément suivant
          element = element->suivant;
       }
-
-      //Incrémente le compteur
       ++compteur;
    }
 }
